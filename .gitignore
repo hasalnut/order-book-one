@@ -1,0 +1,18 @@
+# Build output
+build/
+out/
+compile_commands.json
+
+# Editor / tool caches
+.cache/
+.vscode/
+.idea/
+*.swp
+
+# macOS
+.DS_Store
+
+# Benchmark/profiling artefacts
+*.json.bench
+perf.data*
+*.trace

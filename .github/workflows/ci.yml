@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build-and-test:
+    name: ${{ matrix.compiler.name }} / ${{ matrix.preset }}
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        compiler:
+          - { name: gcc, cc: gcc-14, cxx: g++-14 }
+          - { name: clang, cc: clang-18, cxx: clang++-18 }
+        preset: [debug, asan]
+    env:
+      CC: ${{ matrix.compiler.cc }}
+      CXX: ${{ matrix.compiler.cxx }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Ninja
+        run: sudo apt-get update && sudo apt-get install -y ninja-build
+
+      # Newer Ubuntu kernels use high ASLR entropy, which can crash ASan at startup.
+      - name: Lower ASLR entropy for ASan
+        if: matrix.preset == 'asan'
+        run: sudo sysctl vm.mmap_rnd_bits=28
+
+      - name: Configure
+        run: cmake --preset ${{ matrix.preset }}
+
+      - name: Build
+        run: cmake --build --preset ${{ matrix.preset }}
+
+      - name: Test
+        run: ctest --preset ${{ matrix.preset }}
