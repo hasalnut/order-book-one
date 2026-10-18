@@ -47,7 +47,8 @@ endif()
 
 # ---- Engine library ----
 add_library(orderbook
-  engine/src/placeholder.cpp)
+  engine/src/placeholder.cpp
+  engine/src/order_book.cpp)
 target_include_directories(orderbook PUBLIC engine/include)
 target_link_libraries(orderbook PRIVATE orderbook_warnings)
 
@@ -55,7 +56,9 @@ target_link_libraries(orderbook PRIVATE orderbook_warnings)
 if(ORDERBOOK_BUILD_TESTS)
   enable_testing()
   add_executable(orderbook_tests
-    tests/smoke_test.cpp)
+    tests/smoke_test.cpp
+    tests/resting_orders_test.cpp
+    tests/construction_test.cpp)
   target_link_libraries(orderbook_tests PRIVATE orderbook orderbook_warnings GTest::gtest_main)
   include(GoogleTest)
   gtest_discover_tests(orderbook_tests)

@@ -2,6 +2,8 @@
 
 A C++20 limit order book and matching engine, built to learn low-latency C++ for placement interviews. See `docs/PLAN.md` for the roadmap.
 
+**At the start of every session, read `docs/HANDOFF.md`.** It records where the project is and how we work. Keep it up to date when progress is made.
+
 ## Rules
 
 ### `engine/` — learning zone: do not write code
